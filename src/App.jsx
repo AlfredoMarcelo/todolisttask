@@ -1,9 +1,42 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
 
   const [libros,setLibros] = useState([])
   const [tareas,setTareas] = useState("")
+
+
+  
+  const url = "https://assets.breatheco.de/apis/fake/todos/user/alesanchezr"
+  const opcion = {
+    method: "GET",
+    headers:{
+      
+    }
+  };
+  
+  useEffect(()=>{
+    obtenerDatos()
+  },[])
+
+
+  const obtenerDatos = async ()=>{
+    const data = await fetch (url)
+    const user = await data.json()
+    console.log(user)
+      /* .then(respuesta => {
+        if(respuesta.status >=200 && respuesta.status <300){
+          console.log("La solicitud se ha realizado con exito jejej");
+          return respuesta.json();
+        }
+      })*/
+      setLibros(user) 
+      
+  }
+
+
+
+
 
   const insertar = (e) => {
     e.preventDefault();
@@ -50,9 +83,9 @@ function App() {
                 <thead></thead>
                 <tbody>
                 { libros.map((item,i)=>
-                  <tr className="py-3" key={i}>
-                    <td  className="text-light">{item}</td>
-                    <th><i type="button" className="bi bi-x-circle text-warning" onClick={()=>eliminar(item,i)}></i></th>
+                  <tr className="py-3" key={item.id}>
+                    <td  className="text-light">{item.label}</td>
+                    <th><i type="button" className="bi bi-x-circle text-warning" onClick={()=>eliminar(item.label,i)}></i></th>
                   </tr>
                 )}
                   <tr>
