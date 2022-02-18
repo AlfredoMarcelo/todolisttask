@@ -3,27 +3,25 @@ import { useState } from "react";
 function App() {
 
   const [libros,setLibros] = useState([])
-  const [task,setTask] = useState("")
+  const [tareas,setTareas] = useState("")
 
   const insertar = (e) => {
     e.preventDefault();
-    setLibros(schdule=>[...schdule, task]); 
-    //console.log("alfredo");
-    setTask("");
+    setLibros(schdule=>[...schdule, tareas]);
+    setTareas("");
   };
 
-  const alfredo = libros.length
-
-
   const handleText=(e)=>{
-    setTask(e.target.task
+    setTareas(e.target.tareas
     =e.target.value)
   }
 
   const eliminar =(item)=>{
-    console.log("eliminaste")
-    item.pop()
+    const nuevoLibro = libros.filter((user)=>user !== item)
+    setLibros(nuevoLibro)
   }
+
+  const agendaTotal = libros.length;
 
   return (
     <>
@@ -38,23 +36,23 @@ function App() {
               <input
                 className="form-control mb-5 rounded w-100 py-2 bg-light"
                 type="text"
-                name="newTask"
-                id="newTask"
-                value={task}
+                name="newtareas"
+                id="newtareas"
+                value={tareas}
                 onChange={handleText}
               />
               </form>
               <table className="table bg-dark">
                 <thead></thead>
                 <tbody>
-                { libros.map((item)=>
-                  <tr>
-                    <td className="text-light">{item}</td>
+                { libros.map((item,i)=>
+                  <tr key={i}>
+                    <td  className="text-light">{item}</td>
                     <th><i type="button" className="bi bi-x-circle text-warning" onClick={()=>eliminar(item)}></i></th>
                   </tr>
                 )}
                   <tr>
-                  <td className="text-dark bg-warning fw-bold">{alfredo}</td>
+                  <td className="text-dark bg-warning fw-bold"><i className="bi bi-list-stars"></i>  {agendaTotal}</td>
                   </tr>
                 </tbody>
               </table>
