@@ -16,9 +16,13 @@ function App() {
     =e.target.value)
   }
 
-  const eliminar =(item)=>{
-    const nuevoLibro = libros.filter((user)=>user !== item)
+  const eliminar =(item,i)=>{
+    const nuevoLibro = libros.filter((user,index)=>index !== i)
     setLibros(nuevoLibro)
+  }
+
+  const vaciarAgenda = ()=>{
+    setLibros([])
   }
 
   const agendaTotal = libros.length;
@@ -46,14 +50,18 @@ function App() {
                 <thead></thead>
                 <tbody>
                 { libros.map((item,i)=>
-                  <tr key={i}>
+                  <tr className="py-3" key={i}>
                     <td  className="text-light">{item}</td>
-                    <th><i type="button" className="bi bi-x-circle text-warning" onClick={()=>eliminar(item)}></i></th>
+                    <th><i type="button" className="bi bi-x-circle text-warning" onClick={()=>eliminar(item,i)}></i></th>
                   </tr>
                 )}
                   <tr>
-                  <td className="text-dark bg-warning fw-bold"><i className="bi bi-list-stars"></i>  {agendaTotal}</td>
+                  <td className="text-dark bg-warning fw-bold "><i className="bi bi-list-stars h5"> {agendaTotal}</i> </td>
+                  <th className="text-dark bg-warning fw-bold"><i className="bi bi-trash-fill h5" type="button" onClick={()=>vaciarAgenda()}></i></th>
+                  
                   </tr>
+                  
+                  
                 </tbody>
               </table>
             </div>
