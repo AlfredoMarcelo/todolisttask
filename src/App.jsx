@@ -1,64 +1,103 @@
 import { useEffect, useState } from "react";
 
 function App() {
-
-  const [libros,setLibros] = useState([])
-  const [tareas,setTareas] = useState("")
-
-
+  const [libros, setLibros] = useState([]);
+  const [tareas, setTareas] = useState("");
   
-  const url = "https://assets.breatheco.de/apis/fake/todos/user/alesanchezr"
-  const opcion = {
-    method: "GET",
-    headers:{
-      
-    }
+  const url = "https://assets.breatheco.de/apis/fake/todos/user/alfredo";
+  
+  const post = {
+    method: "POST",
+    headers: {
+      "Content-Type": "Application/json",
+    },
+    body: []
   };
+  const inicioLibro = async (setLibros) => {
+    const data = await fetch(url, post);
+    const user = await data.json();
+    setLibros=user;
+  };
+
+  useEffect(() => {
+    ;
+  }, []);
+
+  const get = {
+    method: "GET",
+    headers: {
+      "Content-Type": "Application/json",
+    },
+  };
+  const put = {
+    method: "PUT",
+    headers: {
+      "Content-Type": "Application/json",
+    },
+  };
+  const delet = {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "Application/json",
+    },
+  };
+
+
+  useEffect(() => {
+    obtenerDatos();
+  }, []);
+
+ 
+
+  const obtenerDatos = async () => {
+    const data = await fetch(url, get);
+    const user = await data.json();
+    setLibros(user);
+  };
+
   
-  useEffect(()=>{
-    obtenerDatos()
-  },[])
-
-
-  const obtenerDatos = async ()=>{
-    const data = await fetch (url)
-    const user = await data.json()
-    console.log(user)
-      /* .then(respuesta => {
-        if(respuesta.status >=200 && respuesta.status <300){
-          console.log("La solicitud se ha realizado con exito jejej");
-          return respuesta.json();
-        }
-      })*/
-      setLibros(user) 
-      
-  }
-
-
-
-
-
   const insertar = (e) => {
     e.preventDefault();
-    setLibros(schdule=>[...schdule, tareas]);
+    setLibros((schdule) => [...schdule, {label:tareas,done:false}]);
     setTareas("");
+    actualizar(libros);
   };
 
-  const handleText=(e)=>{
-    setTareas(e.target.tareas
-    =e.target.value)
+  const actualizar = (setter)=>{
+    fetch(url, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(setter),
+  })
+  .then((response) => {
+    console.log(response);
+  })
+  .catch((err) => {
+    console.error(err);
+    });
   }
 
-  const eliminar =(item,i)=>{
-    const nuevoLibro = libros.filter((user,index)=>index !== i)
-    setLibros(nuevoLibro)
-  }
 
-  const vaciarAgenda = ()=>{
-    setLibros([])
-  }
+
+
+
+  const handleText = (e) => {
+    setTareas((e.target.tareas = e.target.value));
+  };
+
+  const eliminar = (item, i) => {
+    const nuevoLibro = libros.filter((user, index) => index !== i);
+    setLibros(nuevoLibro);
+  };
+
+  const vaciarAgenda = () => {
+    setLibros([]);
+  };
 
   const agendaTotal = libros.length;
+  console.log(libros)
 
   return (
     <>
@@ -67,34 +106,45 @@ function App() {
           <div className="row">
             <div className="col-6 mx-auto text-light text-center py-5">
               <form id="formulario" onSubmit={insertar}>
-              <h1>
-                Todos Task <i className="bi bi-list-check text-warning"></i>
-              </h1>
-              <input
-                className="form-control mb-5 rounded w-100 py-2 bg-light"
-                type="text"
-                name="newtareas"
-                id="newtareas"
-                value={tareas}
-                onChange={handleText}
-              />
+                <h1>
+                  Todos Task <i className="bi bi-list-check text-warning"></i>
+                </h1>
+                <input
+                  className="form-control mb-5 rounded w-100 py-2 bg-light"
+                  type="text"
+                  name="newtareas"
+                  id="newtareas"
+                  value={tareas}
+                  onChange={handleText}
+                />
               </form>
               <table className="table bg-dark">
                 <thead></thead>
                 <tbody>
-                { libros.map((item,i)=>
-                  <tr className="py-3" key={item.id}>
-                    <td  className="text-light">{item.label}</td>
-                    <th><i type="button" className="bi bi-x-circle text-warning" onClick={()=>eliminar(item.label,i)}></i></th>
-                  </tr>
-                )}
+                  {libros.map((item, i) => (
+                    <tr className="py-3" key={i}>
+                      <td className="text-light">{item.label}</td>
+                      <th>
+                        <i
+                          type="button"
+                          className="bi bi-x-circle text-warning"
+                          onClick={() => eliminar(item.label, i)}
+                        ></i>
+                      </th>
+                    </tr>
+                  ))}
                   <tr>
-                  <td className="text-dark bg-warning fw-bold "><i className="bi bi-list-stars h5"> {agendaTotal}</i> </td>
-                  <th className="text-dark bg-warning fw-bold"><i className="bi bi-trash-fill h5" type="button" onClick={()=>vaciarAgenda()}></i></th>
-                  
+                    <td className="text-dark bg-warning fw-bold ">
+                      <i className="bi bi-list-stars h5"> {agendaTotal}</i>{" "}
+                    </td>
+                    <th className="text-dark bg-warning fw-bold">
+                      <i
+                        className="bi bi-trash-fill h5"
+                        type="button"
+                        onClick={() => vaciarAgenda()}
+                      ></i>
+                    </th>
                   </tr>
-                  
-                  
                 </tbody>
               </table>
             </div>
