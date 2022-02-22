@@ -78,10 +78,6 @@ function App() {
     });
   }
 
-
-
-
-
   const handleText = (e) => {
     setTareas((e.target.tareas = e.target.value));
   };
