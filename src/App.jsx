@@ -3,65 +3,54 @@ import { useEffect, useState } from "react";
 function App() {
   const [libros, setLibros] = useState([]);
   const [tareas, setTareas] = useState("");
-  
+
   const url = "https://assets.breatheco.de/apis/fake/todos/user/alfredo";
-  
-  const inicioLibro = ()=>{
+
+  const inicioLibro = () => {
     fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify([]),
-  })
-  .then((response) => {
-    console.log(response);
-    return response.json()
-  })
-  .then((resp) => {
-    console.log(resp);
-  })
-  .catch((err) => {
-    console.error(err);
-    });
-  }
-
-
-
-  const get = {
-    method: "GET",
-    headers: {
-      "Content-Type": "Application/json",
-    },
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(libros),
+    })
+      .then((response) => {
+        console.log(response);
+        return response.json();
+      })
+      .then((resp) => {
+        console.log(resp);
+        if (!resp.msg) obtenerDatos();
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   };
-  const put = {
-    method: "PUT",
-    headers: {
-      "Content-Type": "Application/json",
-    },
-  };
-
-
-  useEffect(() => {
-    inicioLibro();
-    obtenerDatos();
-  }, []);
-
- 
 
   const obtenerDatos = async () => {
-    const data = await fetch(url, get);
+    const data = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "Application/json",
+      },
+    });
+
     const user = await data.json();
+    if (user.msg) inicioLibro();
     setLibros(user);
   };
 
-  
+  useEffect(() => {
+    /* inicioLibro(); */
+    obtenerDatos();
+  }, []);
+
   const insertar = (e) => {
     e.preventDefault();
-    setLibros((schdule) => [...schdule, {label:tareas,done:false}]);
+    setLibros((schdule) => [...schdule, { label: tareas, done: false }]);
     setTareas("");
-    actualizar([...libros, {label:tareas,done:false}]);
-    console.log(libros)
+    actualizar([...libros, { label: tareas, done: false }]);
+    console.log(libros);
   };
 
   const handleText = (e) => {
@@ -69,39 +58,52 @@ function App() {
   };
 
   const eliminar = (item, i) => {
-    const nuevoLibro = libros.filter((user, index) => index !== i);
-    setLibros(nuevoLibro)
-    actualizar(nuevoLibro)
+    const nuevoLibro = libros.filter((item, index) => index !== i);
+    setLibros(nuevoLibro);
+    actualizar(nuevoLibro);
   };
 
-  const actualizar = (setter)=>{
-    fetch(url, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(setter),
-  })
-  .then((response) => {
-    console.log(response);
-    return response.json()
-  })
-  .then((resp) => {
-    console.log(resp);
-  })
-  .catch((err) => {
-    console.error(err);
-    });
-  }
-
-  
   const vaciarAgenda = () => {
-    
+    fetch(url, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        console.log(response);
+        return response.json();
+      })
+      .then((resp) => {
+        console.log(resp);
+        if (!resp.msg) obtenerDatos();
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   };
 
+  const actualizar = (setter) => {
+    fetch(url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(setter),
+    })
+      .then((response) => {
+        console.log(response);
+        return response.json();
+      })
+      .then((resp) => {
+        console.log(resp);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
 
   const agendaTotal = libros.length;
-  console.log(libros)
 
   return (
     <>
@@ -125,7 +127,7 @@ function App() {
               <table className="table bg-dark">
                 <thead></thead>
                 <tbody>
-                  {libros.map((item, i) => (
+                  {libros.length > 0 && libros.map((item, i) => (
                     <tr className="py-3" key={i}>
                       <td className="text-light">{item.label}</td>
                       <th>
