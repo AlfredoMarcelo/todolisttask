@@ -11,6 +11,7 @@ function App() {
     headers: {
       "Content-Type": "Application/json",
     },
+<<<<<<< HEAD
     body: JSON.stringify([])
   };
   const inicioLibro = async () => {
@@ -20,6 +21,19 @@ function App() {
   };
 
 
+=======
+    body: []
+  };
+  const inicioLibro = async (setLibros) => {
+    const data = await fetch(url, post);
+    const user = await data.json();
+    setLibros=user;
+  };
+
+  useEffect(() => {
+    ;
+  }, []);
+>>>>>>> 63c2ec5507d777d6de967dc1abfbf7db35c8345c
 
   const get = {
     method: "GET",
@@ -33,11 +47,23 @@ function App() {
       "Content-Type": "Application/json",
     },
   };
+<<<<<<< HEAD
 
 
 
   useEffect(() => {
     inicioLibro();
+=======
+  const delet = {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "Application/json",
+    },
+  };
+
+
+  useEffect(() => {
+>>>>>>> 63c2ec5507d777d6de967dc1abfbf7db35c8345c
     obtenerDatos();
   }, []);
 
@@ -54,8 +80,12 @@ function App() {
     e.preventDefault();
     setLibros((schdule) => [...schdule, {label:tareas,done:false}]);
     setTareas("");
+<<<<<<< HEAD
     actualizar([...libros, {label:tareas,done:false}]);
     console.log(libros)
+=======
+    actualizar(libros);
+>>>>>>> 63c2ec5507d777d6de967dc1abfbf7db35c8345c
   };
 
   const actualizar = (setter)=>{
@@ -68,30 +98,45 @@ function App() {
   })
   .then((response) => {
     console.log(response);
+<<<<<<< HEAD
     return response.json()
   })
   .then((resp) => {
     console.log(resp);
+=======
+>>>>>>> 63c2ec5507d777d6de967dc1abfbf7db35c8345c
   })
   .catch((err) => {
     console.error(err);
     });
   }
 
+<<<<<<< HEAD
+=======
+
+
+
+
+>>>>>>> 63c2ec5507d777d6de967dc1abfbf7db35c8345c
   const handleText = (e) => {
     setTareas((e.target.tareas = e.target.value));
   };
 
   const eliminar = (item, i) => {
     const nuevoLibro = libros.filter((user, index) => index !== i);
+<<<<<<< HEAD
     setLibros(nuevoLibro)
     /* del(nuevoLibro); */
+=======
+    setLibros(nuevoLibro);
+>>>>>>> 63c2ec5507d777d6de967dc1abfbf7db35c8345c
   };
 
   const vaciarAgenda = () => {
     setLibros([]);
   };
 
+<<<<<<< HEAD
 /* 
   const del = (setter) =>{
   fetch('https://assets.breatheco.de/apis/fake/todos/user/alfredo', {
@@ -132,6 +177,8 @@ function App() {
 
 
 
+=======
+>>>>>>> 63c2ec5507d777d6de967dc1abfbf7db35c8345c
   const agendaTotal = libros.length;
   console.log(libros)
 
