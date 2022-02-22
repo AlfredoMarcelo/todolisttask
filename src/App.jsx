@@ -6,34 +6,27 @@ function App() {
   
   const url = "https://assets.breatheco.de/apis/fake/todos/user/alfredo";
   
-  const post = {
+  const inicioLibro = ()=>{
+    fetch(url, {
     method: "POST",
     headers: {
-      "Content-Type": "Application/json",
+      "Content-Type": "application/json"
     },
-<<<<<<< HEAD
-    body: JSON.stringify([])
-  };
-  const inicioLibro = async () => {
-    const data = await fetch(url, post);
-    const user = await data.json();
-    /* setLibros=user; */
-  };
+    body: JSON.stringify([]),
+  })
+  .then((response) => {
+    console.log(response);
+    return response.json()
+  })
+  .then((resp) => {
+    console.log(resp);
+  })
+  .catch((err) => {
+    console.error(err);
+    });
+  }
 
 
-=======
-    body: []
-  };
-  const inicioLibro = async (setLibros) => {
-    const data = await fetch(url, post);
-    const user = await data.json();
-    setLibros=user;
-  };
-
-  useEffect(() => {
-    ;
-  }, []);
->>>>>>> 63c2ec5507d777d6de967dc1abfbf7db35c8345c
 
   const get = {
     method: "GET",
@@ -47,22 +40,10 @@ function App() {
       "Content-Type": "Application/json",
     },
   };
-<<<<<<< HEAD
 
 
   useEffect(() => {
     inicioLibro();
-=======
-  const delet = {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "Application/json",
-    },
-  };
-
-
-  useEffect(() => {
->>>>>>> 63c2ec5507d777d6de967dc1abfbf7db35c8345c
     obtenerDatos();
   }, []);
 
@@ -79,12 +60,18 @@ function App() {
     e.preventDefault();
     setLibros((schdule) => [...schdule, {label:tareas,done:false}]);
     setTareas("");
-<<<<<<< HEAD
     actualizar([...libros, {label:tareas,done:false}]);
     console.log(libros)
-=======
-    actualizar(libros);
->>>>>>> 63c2ec5507d777d6de967dc1abfbf7db35c8345c
+  };
+
+  const handleText = (e) => {
+    setTareas((e.target.tareas = e.target.value));
+  };
+
+  const eliminar = (item, i) => {
+    const nuevoLibro = libros.filter((user, index) => index !== i);
+    setLibros(nuevoLibro)
+    actualizar(nuevoLibro)
   };
 
   const actualizar = (setter)=>{
@@ -97,87 +84,22 @@ function App() {
   })
   .then((response) => {
     console.log(response);
-<<<<<<< HEAD
     return response.json()
   })
   .then((resp) => {
     console.log(resp);
-=======
->>>>>>> 63c2ec5507d777d6de967dc1abfbf7db35c8345c
   })
   .catch((err) => {
     console.error(err);
     });
   }
 
-<<<<<<< HEAD
-=======
-
-
-
-
->>>>>>> 63c2ec5507d777d6de967dc1abfbf7db35c8345c
-  const handleText = (e) => {
-    setTareas((e.target.tareas = e.target.value));
-  };
-
-  const eliminar = (item, i) => {
-    const nuevoLibro = libros.filter((user, index) => index !== i);
-<<<<<<< HEAD
-    setLibros(nuevoLibro)
-    /* del(nuevoLibro); */
-=======
-    setLibros(nuevoLibro);
->>>>>>> 63c2ec5507d777d6de967dc1abfbf7db35c8345c
-  };
-
+  
   const vaciarAgenda = () => {
-    setLibros([]);
+    
   };
 
-<<<<<<< HEAD
-/* 
-  const del = (setter) =>{
-  fetch('https://assets.breatheco.de/apis/fake/todos/user/alfredo', {
-    method: "DELETE",
-    body: JSON.stringify(setter),
-    headers: {
-      "Content-Type": "application/json"
-    }
-  })
-  .then(resp => {
-      console.log(resp.ok); // will be true if the response is successfull
-      console.log(resp.status); // the status code = 200 or code = 400 etc.
-      console.log(resp.text()); // will try return the exact result as string
-      return resp.json(); // (returns promise) will try to parse the result as json as return a promise that you can .then for results
-  })
-  .then(data => {
-      //here is were your code should start after the fetch finishes
-      console.log(data); //this will print on the console the exact object received from the server
-  })
-  .catch(error => {
-      //error handling
-      console.log(error);
-  });
-} */
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-=======
->>>>>>> 63c2ec5507d777d6de967dc1abfbf7db35c8345c
   const agendaTotal = libros.length;
   console.log(libros)
 
